@@ -19,6 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.flowlayout.FlowRow
 import com.kuldeepsinghrai.krypto.presentation.coin_detail.components.CoinTag
 import com.kuldeepsinghrai.krypto.presentation.coin_detail.components.TeamListItem
+import com.kuldeepsinghrai.krypto.presentation.common_components.TextIsActive
 
 @Composable
 fun CoinDetailScreen(
@@ -41,15 +42,9 @@ fun CoinDetailScreen(
                             style = MaterialTheme.typography.headlineMedium,
                             modifier = Modifier.weight(8f)
                         )
-                        Text(
-                            text = if(coin.isActive) "active" else "inactive",
-                            color = if(coin.isActive) Color.Green else Color.Red,
-                            fontStyle = FontStyle.Italic,
-                            textAlign = TextAlign.End,
-                            modifier = Modifier
-                                .align(CenterVertically)
-                                .weight(2f)
-                        )
+                        TextIsActive(isActive = coin.isActive, modifier = Modifier
+                            .align(CenterVertically)
+                            .weight(2f))
                     }
                     Spacer(modifier = Modifier.height(15.dp))
                     Text(

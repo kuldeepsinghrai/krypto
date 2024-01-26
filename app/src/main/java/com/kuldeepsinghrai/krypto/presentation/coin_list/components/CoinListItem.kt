@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.kuldeepsinghrai.krypto.domain.model.Coin
+import com.kuldeepsinghrai.krypto.presentation.common_components.TextIsActive
 
 @Composable
 fun CoinListItem(
@@ -34,13 +35,9 @@ fun CoinListItem(
             style = MaterialTheme.typography.bodyLarge,
             overflow = TextOverflow.Ellipsis
         )
-        Text(
-            text = if(coin.isActive) "active" else "inactive",
-            color = if(coin.isActive) Color.Green else Color.Red,
-            fontStyle = FontStyle.Italic,
-            textAlign = TextAlign.End,
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.align(CenterVertically)
+
+        TextIsActive(isActive = coin.isActive, modifier = Modifier
+            .align(CenterVertically), style = MaterialTheme.typography.bodyMedium,
         )
     }
 }
