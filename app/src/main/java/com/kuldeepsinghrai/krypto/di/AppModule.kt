@@ -1,15 +1,20 @@
 package com.kuldeepsinghrai.krypto.di
 
-import com.kuldeepsinghrai.krypto.common.Constants
-import com.kuldeepsinghrai.krypto.data.remote.CoinPaprikaApi
 import com.kuldeepsinghrai.krypto.data.repository.CoinRepositoryImpl
 import com.kuldeepsinghrai.krypto.domain.repository.CoinRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.android.Android
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.request.accept
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import javax.inject.Singleton
 
 @Module
@@ -18,17 +23,24 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePaprikaApi(): CoinPaprikaApi {
-        return Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(CoinPaprikaApi::class.java)
+    fun provideHttpClient(): HttpClient {
+        return HttpClient(Android) {
+            install(ContentNegotiation) {
+                
+            }
+            install(Logging) {
+                level = LogLevel.ALL
+            }
+            defaultRequest {
+                contentType(ContentType.Application.Json)
+                accept(ContentType.Application.Json)
+            }
+        }
     }
 
     @Provides
     @Singleton
-    fun provideCoinRepository(api: CoinPaprikaApi): CoinRepository {
-        return CoinRepositoryImpl(api)
+    fun provideCoinRepository(client: HttpClient): CoinRepository {
+        return CoinRepositoryImpl(client)
     }
 }

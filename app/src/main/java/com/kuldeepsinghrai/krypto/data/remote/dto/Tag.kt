@@ -1,13 +1,12 @@
 package com.kuldeepsinghrai.krypto.data.remote.dto
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Tag(
-    @SerializedName("coin_counter")
-    val coinCounter: Int,
-    @SerializedName("ico_counter")
-    val icoCounter: Int,
+    val coin_counter: Int,
+    val ico_counter: Int,
     val id: String,
     val name: String
 )
